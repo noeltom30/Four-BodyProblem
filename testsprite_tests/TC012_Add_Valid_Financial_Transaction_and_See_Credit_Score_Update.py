@@ -46,21 +46,46 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Perform login as user with username admin@converge.com and password Admin@123456.
+        await page.goto('http://localhost:5000/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Perform login via API auth endpoint with provided credentials.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
+        # -> Check the /api/transactions endpoint for possible POST or authentication methods to add transactions.
+        await page.goto('http://localhost:5000/api/transactions', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Find a way to authenticate and obtain a token using the provided credentials admin@converge.com and Admin@123456.
+        await page.goto('http://localhost:5000/api/auth/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Check if there is any documentation or metadata on the root or other endpoints that might explain authentication or token retrieval process.
+        await page.goto('http://localhost:5000/api', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to find any UI or dashboard page from the root or home page that might allow login or transaction addition.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Attempt to authenticate by sending POST request with credentials to /api/auth to obtain token for authorized actions.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(page.locator('text=Transaction Successful').first).to_be_visible(timeout=1000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError("Test case failed: The test plan execution has failed because the transaction was not added successfully and the credit score did not update as expected.")
         await asyncio.sleep(5)
     
     finally:

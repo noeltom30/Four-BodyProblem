@@ -46,21 +46,41 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Login as Admin using provided credentials.
+        await page.goto('http://localhost:5000/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Check root page or other navigation options to find login or admin panel access.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to access admin panel or login via API or check if any UI elements for login exist.
+        await page.goto('http://localhost:5000/admin', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to find alternative URLs or API endpoints for admin login or verification queue access, or check root page for clues.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Attempt to explore /api/auth endpoint for admin login via API call or check for documentation on authentication.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        # -> Try to explore other API endpoints listed at root such as /api/kyc or /api/partner for any admin or verification queue access.
+        await page.goto('http://localhost:5000/api/kyc', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(page.locator('text=Admin KYC Verification Queue - All Pending Requests').first).to_be_visible(timeout=1000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError("Test failed: Admin KYC verification queue is not accessible or pending requests are not listed as required by the test plan.")
         await asyncio.sleep(5)
     
     finally:

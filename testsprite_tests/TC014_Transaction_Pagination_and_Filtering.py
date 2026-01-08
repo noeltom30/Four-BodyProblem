@@ -46,21 +46,56 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Login as User with multiple transactions using username admin@converge.com and password Admin@123456
+        await page.goto('http://localhost:5000/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Check root or other available endpoints for login or transaction access options
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Perform login via /api/auth with username admin@converge.com and password Admin@123456
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
+        # -> Check if there is a login page or UI accessible from root or other pages to perform login.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Perform login via API call to /api/auth with username and password to get auth token.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Check if there is any other way to access transactions or login, or if transactions endpoint is accessible without login.
+        await page.goto('http://localhost:5000/api/transactions?page=1&size=10', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Find a way to authenticate and obtain a token using provided credentials to access transactions.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Perform POST request to /api/auth with username and password to obtain authentication token.
+        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Check if there is any other endpoint or UI element on the root or other pages that can be used for login or token retrieval.
+        await page.goto('http://localhost:5000', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(page.locator('text=Transaction filter applied successfully').first).to_be_visible(timeout=1000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError('Test case failed: Unable to verify transactions with pagination and filters as per the test plan. The expected transaction filter confirmation message is not present on the page.')
         await asyncio.sleep(5)
     
     finally:

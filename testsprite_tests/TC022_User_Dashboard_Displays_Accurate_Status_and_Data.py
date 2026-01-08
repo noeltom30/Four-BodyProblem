@@ -46,21 +46,26 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        # -> Navigate to login page or dashboard page directly using known endpoints or URLs.
+        await page.goto('http://localhost:5000/login', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        # -> Try to find or navigate to a known UI page or dashboard URL, or check if UI is hosted separately.
+        await page.goto('http://localhost:5000/dashboard', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to find or navigate to a UI page or login page by checking other possible URLs or endpoints, or confirm if UI is hosted separately.
+        await page.goto('http://localhost:5000/ui/login', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(page.locator('text=KYC Verification Complete').first).to_be_visible(timeout=30000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError('Test case failed: The dashboard did not display the current KYC status accurately as required by the test plan.')
         await asyncio.sleep(5)
     
     finally:

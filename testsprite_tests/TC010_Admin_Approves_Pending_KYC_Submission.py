@@ -46,21 +46,17 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
-        await asyncio.sleep(3)
-        
-
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        # -> Login as Admin using username and password.
+        await page.goto('http://localhost:5000/login', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
+        frame = context.pages[-1]
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(frame.locator('text=KYC Approval Successful').first).to_be_visible(timeout=30000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError("Test case failed: The admin was unable to approve the pending KYC submission, or the status did not update to 'Approved' and no audit log entry was created as expected.")
         await asyncio.sleep(5)
     
     finally:

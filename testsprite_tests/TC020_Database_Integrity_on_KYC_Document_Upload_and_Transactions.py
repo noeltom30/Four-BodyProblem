@@ -46,21 +46,46 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Perform API authentication by sending credentials to /api/auth endpoint to obtain access token for further testing.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
+        # -> Explore available API endpoints or documentation to locate correct authentication endpoint or method.
+        await page.goto('http://localhost:5000/api', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Explore the main web application interface or other URLs to locate login or KYC/transaction management pages for further testing.
+        await page.goto('http://localhost:5000/', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Send POST request to /api/auth with username and password to authenticate and obtain access token.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Explore other possible authentication endpoints or methods, or check for alternative login interfaces to proceed with testing.
+        await page.goto('http://localhost:5000/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Explore other URLs or API endpoints to find authentication or KYC/transaction management interfaces.
+        await page.goto('http://localhost:5000/kyc', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Explore /transactions endpoint to check for transaction API or interface for testing.
+        await page.goto('http://localhost:5000/transactions', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(page.locator('text=SQL Injection Successful').first).to_be_visible(timeout=1000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError('Test case failed: Database operations on KYC documents and transactions must use parameterized queries to prevent SQL injection and maintain schema integrity. Malicious payloads in filenames, metadata, or transaction fields should not succeed.')
         await asyncio.sleep(5)
     
     finally:

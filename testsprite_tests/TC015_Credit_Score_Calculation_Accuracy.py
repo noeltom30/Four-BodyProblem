@@ -46,21 +46,32 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Perform login via API call to /api/auth with username admin@converge.com and password Admin@123456
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
+        # -> Perform POST request to /api/auth with username admin@converge.com and password Admin@123456 to authenticate user
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Explore /api/transactions endpoint to add varied transactions as per task instructions
+        await page.goto('http://localhost:5000/api/transactions', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Since no login or token interface is available, attempt to extract content from /api/kyc endpoint to check if it provides any user or authentication related info or options
+        await page.goto('http://localhost:5000/api/kyc', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
+        frame = context.pages[-1]
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(frame.locator('text=Credit Score Verified Successfully').first).to_be_visible(timeout=30000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError('Test case failed: The credit score verification did not pass. The score must be between 300 and 900 and logically consistent with transaction history as per the test plan.')
         await asyncio.sleep(5)
     
     finally:

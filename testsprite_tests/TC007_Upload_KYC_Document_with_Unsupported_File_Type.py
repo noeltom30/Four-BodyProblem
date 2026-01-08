@@ -46,21 +46,47 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Navigate to the /api/auth endpoint to attempt login as user admin@converge.com.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
+        # -> Try to authenticate via API by sending a POST request to /api/auth with the provided credentials to get a token for further upload testing.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to navigate to a common login page URL such as /login or /auth/login to find a login form.
+        await page.goto('http://localhost:5000/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to find other common login or upload UI pages or endpoints such as /auth/login, /user/login, or /upload.
+        await page.goto('http://localhost:5000/auth/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to find upload UI or documentation by navigating to /upload or /api/kyc or other relevant endpoints.
+        await page.goto('http://localhost:5000/upload', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to authenticate via API by sending a POST request to /api/auth/login with the provided credentials to obtain an authentication token for further upload testing.
+        await page.goto('http://localhost:5000/api/auth/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to find any other API endpoints or UI pages that might allow login or file upload, or check for documentation or metadata endpoints.
+        await page.goto('http://localhost:5000/api/kyc', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
+        frame = context.pages[-1]
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(frame.locator('text=Upload Successful').first).to_be_visible(timeout=1000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError('Test case failed: File uploads with unsupported file types should be rejected with an appropriate error message, but the upload was not rejected as expected.')
         await asyncio.sleep(5)
     
     finally:

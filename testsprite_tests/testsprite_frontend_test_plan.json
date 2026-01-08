@@ -2,593 +2,623 @@
   {
     "id": "TC001",
     "title": "User Registration with Valid Data",
-    "description": "Verify user can successfully register with valid personal and contact information and correct password strength.",
+    "description": "Verify that a user can successfully register with a valid email, strong password, and mandatory user details.",
     "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to registration page"
+        "description": "Navigate to the registration page."
       },
       {
         "type": "action",
-        "description": "Enter valid personal and contact information"
+        "description": "Input a valid email."
       },
       {
         "type": "action",
-        "description": "Input a strong password meeting password policy requirements"
+        "description": "Input a strong password that meets complexity requirements."
       },
       {
         "type": "action",
-        "description": "Submit the registration form"
+        "description": "Fill in all mandatory user details."
+      },
+      {
+        "type": "action",
+        "description": "Submit the registration form."
       },
       {
         "type": "assertion",
-        "description": "Confirm registration is successful and user receives confirmation"
+        "description": "Check that the registration is successful and a confirmation or welcome message is displayed."
       }
     ]
   },
   {
     "id": "TC002",
-    "title": "User Registration with Weak Password",
-    "description": "Verify system rejects registration if password does not meet strength criteria with proper error message.",
+    "title": "User Registration with Invalid Email Format",
+    "description": "Verify that registration fails when the user inputs an invalid email format.",
     "category": "error handling",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to registration page"
+        "description": "Navigate to the registration page."
       },
       {
         "type": "action",
-        "description": "Enter valid personal and contact information"
+        "description": "Input an invalid email address (e.g., missing '@')."
       },
       {
         "type": "action",
-        "description": "Input a weak password (e.g., less than required length)"
+        "description": "Input a strong password and fill mandatory details."
       },
       {
         "type": "action",
-        "description": "Submit the registration form"
+        "description": "Submit the registration form."
       },
       {
         "type": "assertion",
-        "description": "Verify registration is rejected with descriptive password strength error"
+        "description": "Check that the system displays an appropriate error message for invalid email."
       }
     ]
   },
   {
     "id": "TC003",
     "title": "User Login with Correct Credentials",
-    "description": "Verify that a user can log in successfully with correct username/email and password, receiving a valid JWT token.",
+    "description": "Verify that users can log in successfully using correct credentials and receive a valid JWT token.",
     "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to login page"
+        "description": "Navigate to the login page."
       },
       {
         "type": "action",
-        "description": "Input valid username/email and correct password"
+        "description": "Input valid email and corresponding password."
       },
       {
         "type": "action",
-        "description": "Click the login button"
+        "description": "Click login button."
       },
       {
         "type": "assertion",
-        "description": "Check login succeeds and JWT token is issued"
+        "description": "Verify login success and receipt of a valid JWT token."
       }
     ]
   },
   {
     "id": "TC004",
-    "title": "User Login with Incorrect Credentials",
-    "description": "Verify login fails with invalid username/email or password and a proper error message is shown.",
+    "title": "User Login with Incorrect Password",
+    "description": "Verify that login fails with an incorrect password and shows an appropriate error.",
     "category": "error handling",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to login page"
+        "description": "Navigate to the login page."
       },
       {
         "type": "action",
-        "description": "Input invalid or non-existent username/email or wrong password"
+        "description": "Input valid email and incorrect password."
       },
       {
         "type": "action",
-        "description": "Click the login button"
+        "description": "Click login button."
       },
       {
         "type": "assertion",
-        "description": "Verify login is denied with appropriate error message"
+        "description": "Verify login failure with error message."
       }
     ]
   },
   {
     "id": "TC005",
-    "title": "KYC Document Upload with Valid File",
-    "description": "Verify users can upload allowed document types (PDF, JPG, PNG) under 5MB and file is accepted for KYC submission.",
-    "category": "functional",
+    "title": "JWT Token Role-Based Access Control Enforcement",
+    "description": "Verify that users with different roles (User, Admin, Partner) can only access routes permissible for their role and receive authorization errors if they access unauthorized routes.",
+    "category": "security",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as a user"
-      },
-      {
-        "type": "action",
-        "description": "Navigate to document upload page"
-      },
-      {
-        "type": "action",
-        "description": "Select and upload a valid document file (PDF, JPG, or PNG) less than 5MB"
+        "description": "Authenticate as a User role and attempt to access an Admin-only endpoint."
       },
       {
         "type": "assertion",
-        "description": "Confirm file upload is successful and file appears in document list"
+        "description": "Confirm access is denied with appropriate authorization error."
+      },
+      {
+        "type": "action",
+        "description": "Authenticate as an Admin role and access an Admin endpoint."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm access is granted."
+      },
+      {
+        "type": "action",
+        "description": "Authenticate as Partner role and attempt to access User-admin routes."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm access is denied."
       }
     ]
   },
   {
     "id": "TC006",
-    "title": "KYC Document Upload with Invalid File Type",
-    "description": "Verify system rejects upload of disallowed file types with an appropriate error message.",
-    "category": "error handling",
-    "priority": "Medium",
+    "title": "Upload Valid KYC Documents",
+    "description": "Verify users can upload valid KYC documents of supported types (PDF, JPG, PNG) not exceeding the 5 MB limit.",
+    "category": "functional",
+    "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as a user"
+        "description": "Login as a User."
       },
       {
         "type": "action",
-        "description": "Navigate to document upload page"
+        "description": "Navigate to the document upload page."
       },
       {
         "type": "action",
-        "description": "Attempt to upload a file of unsupported type (e.g., .exe, .txt)"
+        "description": "Upload multiple documents of different valid types (e.g., Aadhaar PDF, PAN JPG)."
       },
       {
         "type": "assertion",
-        "description": "Verify upload is rejected with proper invalid file type error"
+        "description": "Verify the files are accepted and successfully uploaded."
       }
     ]
   },
   {
     "id": "TC007",
-    "title": "KYC Document Upload Exceeding Size Limit",
-    "description": "Verify upload fails with files larger than 5MB and appropriate error message is returned.",
+    "title": "Upload KYC Document with Unsupported File Type",
+    "description": "Verify that file uploads with unsupported file types are rejected with an appropriate error.",
     "category": "error handling",
-    "priority": "Medium",
+    "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as a user"
+        "description": "Login as a User."
       },
       {
         "type": "action",
-        "description": "Navigate to document upload page"
-      },
-      {
-        "type": "action",
-        "description": "Attempt to upload a valid file type exceeding 5MB"
+        "description": "Attempt to upload a document with unsupported MIME type (e.g., .exe or .txt file)."
       },
       {
         "type": "assertion",
-        "description": "Verify upload is rejected with file size limit error"
+        "description": "Verify upload is rejected and an error message about invalid file type is displayed."
       }
     ]
   },
   {
     "id": "TC008",
-    "title": "KYC Submission Without Required Documents",
-    "description": "Verify users cannot submit KYC application without uploading all required documents (Aadhaar, PAN, Passport as applicable).",
+    "title": "Upload KYC Document Exceeding Size Limit",
+    "description": "Verify that attempts to upload files larger than 5 MB are rejected with appropriate error messages.",
     "category": "error handling",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as a user"
+        "description": "Login as a User."
       },
       {
         "type": "action",
-        "description": "Navigate to documents page without uploading all required documents"
-      },
-      {
-        "type": "action",
-        "description": "Attempt to submit KYC application"
+        "description": "Attempt to upload a file larger than 5MB."
       },
       {
         "type": "assertion",
-        "description": "Verify submission is blocked with message specifying missing required documents"
+        "description": "Verify the upload fails with a file size limit error."
       }
     ]
   },
   {
     "id": "TC009",
-    "title": "KYC Submission Workflow Success",
-    "description": "Verify that after uploading valid required documents, user can submit KYC application which appears in admin pending queue.",
+    "title": "Submit KYC Documents for Verification",
+    "description": "Verify that users can submit uploaded KYC documents for admin review and the status updates correctly.",
     "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as a user"
+        "description": "Upload valid KYC documents as a User."
       },
       {
         "type": "action",
-        "description": "Upload all required valid documents"
-      },
-      {
-        "type": "action",
-        "description": "Submit the KYC application"
+        "description": "Submit documents for KYC review."
       },
       {
         "type": "assertion",
-        "description": "Confirm submission success and application appears pending in admin panel"
+        "description": "Check that submission status updates to 'Pending Review'."
       }
     ]
   },
   {
     "id": "TC010",
-    "title": "Admin Reviews and Approves KYC Application",
-    "description": "Verify admin is able to log in, view pending KYC applications, access uploaded documents, and approve an application with audit trail recording.",
+    "title": "Admin Approves Pending KYC Submission",
+    "description": "Verify that an admin can approve a pending KYC submission and that the status updates and audit trail are recorded.",
     "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as admin"
+        "description": "Login as Admin."
       },
       {
         "type": "action",
-        "description": "Navigate to admin pending KYC requests queue"
+        "description": "Navigate to the verification queue."
       },
       {
         "type": "action",
-        "description": "Select a pending KYC application and review documents"
-      },
-      {
-        "type": "action",
-        "description": "Approve the KYC application"
+        "description": "Review a pending KYC submission and approve it."
       },
       {
         "type": "assertion",
-        "description": "Confirm application status changes to approved and audit trail entry is created"
+        "description": "Verify KYC status changes to 'Approved' and audit log entry is created."
       }
     ]
   },
   {
     "id": "TC011",
-    "title": "Admin Rejects KYC Application with Mandatory Reason",
-    "description": "Verify admin must provide a rejection reason when rejecting KYC application and that action is logged in audit trail.",
-    "category": "error handling",
+    "title": "Admin Rejects KYC Submission with Mandatory Reason",
+    "description": "Verify that rejecting a KYC submission requires a mandatory rejection reason and updates status and audit logs accordingly.",
+    "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as admin"
+        "description": "Login as Admin."
       },
       {
         "type": "action",
-        "description": "Navigate to admin pending KYC requests queue"
+        "description": "Navigate to the pending KYC submissions."
       },
       {
         "type": "action",
-        "description": "Select a pending KYC application and review documents"
-      },
-      {
-        "type": "action",
-        "description": "Attempt to reject the application without entering rejection reason"
+        "description": "Attempt to reject a submission without providing a reason."
       },
       {
         "type": "assertion",
-        "description": "Verify rejection is blocked and error requesting mandatory reason is shown"
+        "description": "Verify that rejection is not allowed and an error prompts for a mandatory reason."
       },
       {
         "type": "action",
-        "description": "Enter valid rejection reason and confirm rejection"
+        "description": "Provide a rejection reason and reject the submission."
       },
       {
         "type": "assertion",
-        "description": "Confirm application status changes to rejected and audit trail records rejection with reason"
+        "description": "Verify status updates to 'Rejected' and audit log records reason."
       }
     ]
   },
   {
     "id": "TC012",
-    "title": "Add Financial Transaction and Verify Credit Score Update",
-    "description": "Verify user can add credit and debit transactions with proper metadata, and credit score is recalculated accurately.",
+    "title": "Add Valid Financial Transaction and See Credit Score Update",
+    "description": "Verify that users can add valid credit or debit transactions with correct fields and that credit score recalculates based on the scoring engine.",
     "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as user"
+        "description": "Login as User."
       },
       {
         "type": "action",
-        "description": "Navigate to transactions page"
-      },
-      {
-        "type": "action",
-        "description": "Add a new credit transaction with valid amount and metadata"
+        "description": "Add a transaction with valid type ('credit' or 'debit'), positive amount, and properly formatted date."
       },
       {
         "type": "assertion",
-        "description": "Confirm transaction is saved successfully"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify user credit score is recalculated and updated according to weighted algorithm"
+        "description": "Verify transaction is saved and credit score updates accordingly."
       }
     ]
   },
   {
     "id": "TC013",
-    "title": "View and Filter Financial Transactions",
-    "description": "Verify user can view transaction list, use pagination and apply filters (credit/debit, date range) successfully.",
-    "category": "functional",
-    "priority": "Medium",
+    "title": "Add Transaction with Invalid Type",
+    "description": "Verify that adding a transaction with invalid type (not 'credit' or 'debit') is rejected with appropriate validation error.",
+    "category": "error handling",
+    "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as user"
+        "description": "Login as User."
       },
       {
         "type": "action",
-        "description": "Navigate to transactions page"
-      },
-      {
-        "type": "action",
-        "description": "Apply filter to show only credit transactions"
+        "description": "Attempt to add a transaction with type 'refund'."
       },
       {
         "type": "assertion",
-        "description": "Verify only credit transactions are displayed"
-      },
-      {
-        "type": "action",
-        "description": "Navigate through pages of transactions using pagination controls"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify pagination works and correct data is displayed per page"
+        "description": "Verify the system rejects the request with a validation error."
       }
     ]
   },
   {
     "id": "TC014",
-    "title": "Verify Dashboard Displays Accurate KYC Status and Credit Score",
-    "description": "Verify dashboard shows correct user KYC verification status, current credit score between 300-900, and financial summary data.",
+    "title": "Transaction Pagination and Filtering",
+    "description": "Verify that users can view transactions with pagination and filter by date range, type, and amount correctly.",
     "category": "functional",
-    "priority": "High",
+    "priority": "Medium",
     "steps": [
       {
         "type": "action",
-        "description": "Log in as user"
+        "description": "Login as User with multiple transactions."
       },
       {
         "type": "action",
-        "description": "Navigate to dashboard page"
+        "description": "Request transaction list with pagination parameters (page, size)."
       },
       {
         "type": "assertion",
-        "description": "Confirm dashboard shows current KYC status (pending/approved/rejected)"
+        "description": "Verify the returned transactions match the requested page and size."
+      },
+      {
+        "type": "action",
+        "description": "Apply filters by transaction type, date range, and amount."
       },
       {
         "type": "assertion",
-        "description": "Verify credit score displayed is within range 300-900 and matches calculated value"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify financial transaction summaries are shown accurately"
+        "description": "Confirm filtered results match the criteria."
       }
     ]
   },
   {
     "id": "TC015",
-    "title": "Role-Based Access Control Enforcement",
-    "description": "Verify users cannot access admin or partner endpoints or UI views, admins cannot access user-only features, and partners have limited access per role.",
-    "category": "security",
-    "priority": "High",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Log in as a user"
-      },
-      {
-        "type": "action",
-        "description": "Attempt to access admin panel or admin API endpoint"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify access is denied with proper authorization error"
-      },
-      {
-        "type": "action",
-        "description": "Log in as partner"
-      },
-      {
-        "type": "action",
-        "description": "Attempt to access admin or user-only pages/APIs"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify restricted access enforced"
-      },
-      {
-        "type": "action",
-        "description": "Log in as admin"
-      },
-      {
-        "type": "action",
-        "description": "Attempt to access user-only features not permitted to admin"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify access denied as per role policies"
-      }
-    ]
-  },
-  {
-    "id": "TC016",
-    "title": "Partner API Access with Valid OAuth-like Account Linking",
-    "description": "Verify third-party partners can securely link accounts via OAuth-like flow, obtain valid API keys, and retrieve authorized user data with user consent.",
+    "title": "Credit Score Calculation Accuracy",
+    "description": "Verify that the credit score falls within 300-900 range and accurately reflects weighted factors: total transactions, average amount, credit/debit ratio, frequency, and recent activity.",
     "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Simulate partner initiating OAuth-like account linking flow"
+        "description": "Login as User."
       },
       {
         "type": "action",
-        "description": "User grants consent for partner data access"
+        "description": "Add varied transactions over different periods with different amounts and types."
       },
       {
         "type": "action",
-        "description": "Partner receives valid API key and access token"
-      },
-      {
-        "type": "action",
-        "description": "Partner calls API to retrieve user KYC status and credit score"
+        "description": "Request current credit score."
       },
       {
         "type": "assertion",
-        "description": "Verify data returned is correct and only accessible with valid tokens and consent"
+        "description": "Verify score is between 300 and 900 and logically consistent with transaction history."
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Partner OAuth-like Account Linking",
+    "description": "Verify that a third-party partner can initiate secure OAuth-like linking, obtain user consent, and access user KYC status and credit data.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Partner initiates account linking request."
+      },
+      {
+        "type": "action",
+        "description": "User authenticates and explicitly consents."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify partner receives access tokens."
+      },
+      {
+        "type": "action",
+        "description": "Partner requests KYC status, credit score, and transactions APIs with token."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify data is returned securely and correctly."
       }
     ]
   },
   {
     "id": "TC017",
-    "title": "Partner API Access with Invalid or Missing API Key",
-    "description": "Verify partner API endpoints reject requests with missing or invalid API keys or expired tokens with appropriate error responses.",
+    "title": "Partner API Access with Invalid API Key or Token",
+    "description": "Verify that partner API access is denied when API key or JWT token is invalid or missing.",
     "category": "security",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Send API request to partner endpoint without API key"
+        "description": "Send request to partner API with invalid or missing API key."
       },
       {
         "type": "assertion",
-        "description": "Verify request is rejected with unauthorized error"
+        "description": "Verify access is denied with appropriate error."
       },
       {
         "type": "action",
-        "description": "Send API request with invalid or expired API key"
+        "description": "Send request to partner API with invalid or expired JWT token."
       },
       {
         "type": "assertion",
-        "description": "Verify request is rejected with token invalid or expired error"
+        "description": "Verify access is denied with authorization error."
       }
     ]
   },
   {
     "id": "TC018",
-    "title": "API Request Validation for User Registration and Transactions",
-    "description": "Verify incoming API requests for registration and transaction creation fail with consistent validation error responses on invalid input data.",
+    "title": "Request Validation Middleware Rejects Invalid Data",
+    "description": "Verify that all API endpoints reject requests with invalid or missing required data, such as malformed emails, incorrect transaction formats, or unauthorized roles.",
     "category": "error handling",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Send registration API request with missing required fields or invalid email format"
+        "description": "Attempt registration with missing mandatory fields."
       },
       {
         "type": "assertion",
-        "description": "Verify response contains structured validation error messages"
+        "description": "Verify validation error is returned."
       },
       {
         "type": "action",
-        "description": "Send transaction creation API request with invalid amount (negative or zero) or missing type"
+        "description": "Attempt to add transaction with negative amount."
       },
       {
         "type": "assertion",
-        "description": "Verify validation errors are returned consistently in response"
+        "description": "Verify validation error is returned."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to access admin routes without admin role."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify authorization error is returned."
       }
     ]
   },
   {
     "id": "TC019",
-    "title": "Global Error Handling Middleware Consistency",
-    "description": "Verify errors thrown from different API layers are handled by the global error middleware returning consistent error formats.",
+    "title": "Global Error Handler Consistency",
+    "description": "Verify that when API errors occur, the global error handling middleware returns consistent and properly formatted JSON error responses.",
     "category": "error handling",
     "priority": "Medium",
     "steps": [
       {
         "type": "action",
-        "description": "Trigger known server error (e.g., database unavailable)"
+        "description": "Make API request that triggers a server error (e.g., malformed data causing internal exception)."
       },
       {
         "type": "assertion",
-        "description": "Server returns consistent error response format with status code and descriptive message"
-      },
-      {
-        "type": "action",
-        "description": "Send API request with invalid JWT token"
-      },
-      {
-        "type": "assertion",
-        "description": "Error response follows global error format with unauthorized status"
+        "description": "Verify response status and JSON error structure are consistent and contain message, error code, and path info."
       }
     ]
   },
   {
     "id": "TC020",
-    "title": "Security Verification of JWT Expiration and Password Hashing",
-    "description": "Verify JWT tokens expire as configured and password hashing is implemented securely using bcrypt with sufficient rounds.",
+    "title": "Database Integrity on KYC Document Upload and Transactions",
+    "description": "Verify that database operations on KYC documents and transactions use parameterized queries preventing SQL injection and maintain schema integrity.",
     "category": "security",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Obtain JWT token after login"
-      },
-      {
-        "type": "action",
-        "description": "Wait for token expiration time and attempt API access"
+        "description": "Attempt to upload KYC document with malicious payload in filename or metadata."
       },
       {
         "type": "assertion",
-        "description": "Verify access is denied due to expired token"
+        "description": "Verify database query parameters are sanitized and no injection succeeds."
       },
       {
         "type": "action",
-        "description": "Inspect stored user password hash in database"
+        "description": "Add financial transactions with suspicious input strings in description or amount fields."
       },
       {
         "type": "assertion",
-        "description": "Confirm password is stored as bcrypt hash with configured rounds"
+        "description": "Verify database rejects injection attempts and transaction is either sanitized or rejected."
       }
     ]
   },
   {
     "id": "TC021",
-    "title": "CORS Configuration Enforcement",
-    "description": "Verify that API endpoints enforce CORS policy allowing requests only from allowed origins.",
-    "category": "security",
+    "title": "Frontend API Client Token Management and Error Handling",
+    "description": "Verify that the React frontend API client correctly manages authentication tokens with storage, refresh, and handles API error responses gracefully.",
+    "category": "functional",
     "priority": "Medium",
     "steps": [
       {
         "type": "action",
-        "description": "Send API request from an allowed origin"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify request succeeds with appropriate CORS headers"
+        "description": "Login to acquire JWT token."
       },
       {
         "type": "action",
-        "description": "Send API request from a disallowed origin"
+        "description": "Simulate token expiration and trigger an API request."
       },
       {
         "type": "assertion",
-        "description": "Verify request is blocked or CORS headers deny access"
+        "description": "Verify client handles token expiration by prompting re-login or token refresh."
+      },
+      {
+        "type": "action",
+        "description": "Make API requests resulting in errors (validation, forbidden, server errors)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify error messages are displayed to users properly without client crash."
+      }
+    ]
+  },
+  {
+    "id": "TC022",
+    "title": "User Dashboard Displays Accurate Status and Data",
+    "description": "Verify that the user dashboard correctly displays current KYC status, credit score, transaction summaries, and enables navigation to key features.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as user with existing transactions and completed KYC."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify dashboard shows current KYC status accurately."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify credit score matches backend calculation."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify recent transactions summary is correctly displayed."
+      },
+      {
+        "type": "action",
+        "description": "Use navigation links to access document management and transactions."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify navigation is successful and UI updates accordingly."
+      }
+    ]
+  },
+  {
+    "id": "TC023",
+    "title": "Admin Panel Displays Verification Queue and Audit Logs",
+    "description": "Verify that admins can see a queue of pending KYC requests, view uploaded documents, perform approvals/rejections with reasons, and audit logs are accessible.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as Admin."
+      },
+      {
+        "type": "action",
+        "description": "Open admin panel and navigate to verification queue."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that all pending requests are listed accurately."
+      },
+      {
+        "type": "action",
+        "description": "Select a submission to view documents."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm documents are viewable and downloadable."
+      },
+      {
+        "type": "action",
+        "description": "Perform approval and rejection actions with mandatory reason for rejection."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify status update and audit trail entries."
+      },
+      {
+        "type": "action",
+        "description": "Access audit logs interface."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify audit entries correspond correctly to admin actions."
       }
     ]
   }

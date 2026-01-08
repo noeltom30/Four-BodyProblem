@@ -46,21 +46,43 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        # -> Navigate to the React frontend application URL to access login UI and test authentication token management.
+        await page.goto('http://localhost:3000', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
-        await asyncio.sleep(3)
+        # -> Click the 'Login' link to navigate to the login form.
+        frame = context.pages[-1]
+        # Click the 'Login' link to navigate to the login form
+        elem = frame.locator('xpath=html/body/div/nav/div/div/a').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+
+        # -> Input the provided username and password, then click Sign In to perform login.
+        frame = context.pages[-1]
+        # Input username for login
+        elem = frame.locator('xpath=html/body/div/div/div/div/form/div/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin@converge.com')
+        
+
+        frame = context.pages[-1]
+        # Input password for login
+        elem = frame.locator('xpath=html/body/div/div/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('Admin@123456')
+        
+
+        frame = context.pages[-1]
+        # Click Sign In button to submit login form
+        elem = frame.locator('xpath=html/body/div/div/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
 
         # --> Assertions to verify final state
+        frame = context.pages[-1]
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(frame.locator('text=Token Refresh Successful').first).to_be_visible(timeout=1000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError("Test case failed: The React frontend API client did not handle authentication token expiration and refresh correctly as expected in the test plan.")
         await asyncio.sleep(5)
     
     finally:

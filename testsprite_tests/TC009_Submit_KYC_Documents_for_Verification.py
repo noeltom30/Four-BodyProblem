@@ -46,21 +46,36 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Navigate to user login or KYC upload page to upload valid KYC documents.
+        await page.goto('http://localhost:5000/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Check for alternative navigation options or URLs to reach user login or KYC upload page.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to access the auth endpoint or find a way to login as user to upload KYC documents.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
+        # -> Try to find any other accessible UI or API endpoints for user login or KYC document upload, or request further instructions or credentials.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to interact with the /api/auth endpoint to login as user and upload KYC documents via API calls or find a UI for these actions.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(page.locator('text=KYC Submission Successful').first).to_be_visible(timeout=30000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError("Test case failed: Users cannot submit uploaded KYC documents for admin review or the status did not update to 'Pending Review' as expected.")
         await asyncio.sleep(5)
     
     finally:

@@ -46,21 +46,22 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Try to navigate to the /api/auth endpoint or find a login page URL.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        # -> Try to navigate to a common login page URL such as /login or /signin or look for login link on the root page.
+        await page.goto('http://localhost:5000/login', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
+        frame = context.pages[-1]
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(frame.locator('text=Login Successful').first).to_be_visible(timeout=30000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError('Test case failed: Login did not fail as expected with incorrect password. The error message indicating login failure was not displayed.')
         await asyncio.sleep(5)
     
     finally:

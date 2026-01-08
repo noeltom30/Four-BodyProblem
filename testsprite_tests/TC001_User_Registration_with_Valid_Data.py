@@ -46,16 +46,30 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Try to navigate directly to the registration page URL or find another way to access registration
+        # -> Find and navigate to the registration page from the current page.
+        await page.mouse.wheel(0, await page.evaluate('() => window.innerHeight'))
+        
+
+        # -> Try to find a link or button to navigate to the registration page or try a direct URL if no navigation element is found.
         await page.goto('http://localhost:5000/register', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Return to the home page and try to find another way to access the registration form or confirm registration is not available.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Attempt to register a user by sending a POST request to the /api/auth endpoint with valid user details as per the task instructions.
+        await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
         try:
-            await expect(page.locator('text=Registration Successful! Welcome aboard').first).to_be_visible(timeout=5000)
+            await expect(page.locator('text=Registration Successful! Welcome aboard.').first).to_be_visible(timeout=1000)
         except AssertionError:
-            raise AssertionError('Test case failed: User registration was not successful or confirmation message was not received as expected.')
+            raise AssertionError('Test case failed: The registration process did not complete successfully. The expected confirmation or welcome message was not found on the page, indicating the user could not register with valid details as required by the test plan.')
         await asyncio.sleep(5)
     
     finally:

@@ -46,21 +46,46 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Partner initiates account linking request via /api/partner endpoint.
+        await page.goto('http://localhost:5000/api/partner', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Return to root API endpoint to re-check available endpoints or documentation for correct partner initiation endpoint.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Send a POST request to /api/partner to initiate account linking request as partner.
+        await page.goto('http://localhost:5000/api/partner', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Return to the root API endpoint to re-examine available endpoints or documentation for correct partner initiation endpoint or alternative approach.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Initiate partner account linking request by sending a POST request to /api/partner with necessary partner details.
+        await page.goto('http://localhost:5000/api/partner', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Check other available endpoints such as /api/auth, /api/kyc, or /api/transactions for any partner linking or OAuth initiation capabilities.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        # -> Check /api/kyc endpoint for any partner linking or OAuth initiation capabilities.
+        await page.goto('http://localhost:5000/api/kyc', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(page.locator('text=OAuth Linking Successful').first).to_be_visible(timeout=1000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError('Test failed: The partner was unable to initiate secure OAuth-like linking, obtain user consent, or access user KYC status and credit data as required by the test plan.')
         await asyncio.sleep(5)
     
     finally:

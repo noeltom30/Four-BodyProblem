@@ -46,21 +46,46 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Make an API request to an endpoint with malformed data to trigger a server error and capture the response.
+        await page.goto('http://localhost:5000/api/kyc', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try making a malformed POST request to a valid API endpoint to trigger a server error and capture the JSON error response.
+        await page.goto('http://localhost:5000/api/auth/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Make a POST request with malformed data to a valid API endpoint to trigger a server error and capture the JSON error response.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        # -> Make a POST request to /api/auth/login with malformed data to trigger a server error and capture the JSON error response.
+        await page.goto('http://localhost:5000/api/auth/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Make a POST request with malformed data to /api/auth/login to trigger a server error and capture the JSON error response.
+        await page.goto('http://localhost:5000/api/transactions', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Attempt to authenticate using provided credentials to obtain a token, then make a malformed request to trigger a server error and capture the JSON error response.
+        await page.goto('http://localhost:5000/api/auth/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Make a POST request with malformed data to /api/auth/login to trigger a server error and capture the JSON error response.
+        await page.goto('http://localhost:5000/api/auth/login', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(page.locator('text=Server Error: Unexpected token in JSON at position 0').first).to_be_visible(timeout=1000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError("Test failed: The global error handling middleware did not return a consistent and properly formatted JSON error response for API errors as expected in the test plan.")
         await asyncio.sleep(5)
     
     finally:

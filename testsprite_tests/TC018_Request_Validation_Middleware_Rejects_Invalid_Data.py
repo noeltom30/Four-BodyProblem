@@ -46,21 +46,42 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Attempt registration with missing mandatory fields to verify validation error.
+        await page.goto('http://localhost:5000/api/auth/register', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Check available endpoints from API root to find correct registration endpoint or method.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        # -> Try to find valid registration or authentication endpoints by exploring common API paths or documentation.
+        await page.goto('http://localhost:5000/api/users', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to access /api/transactions endpoint to check for transaction-related API and test invalid transaction data.
+        await page.goto('http://localhost:5000/api/transactions', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Authenticate with valid credentials to obtain token for authorized requests.
+        await page.goto('http://localhost:5000/api/auth/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try to find other common API endpoints related to authentication or admin access to test authorization and validation.
+        await page.goto('http://localhost:5000/api/admin', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
+        frame = context.pages[-1]
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(frame.locator('text=Successful API validation and authorization').first).to_be_visible(timeout=1000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError("Test case failed: The API did not reject requests with invalid or missing required data as expected. Validation and authorization errors were not properly returned for malformed emails, incorrect transaction formats, or unauthorized roles.")
         await asyncio.sleep(5)
     
     finally:

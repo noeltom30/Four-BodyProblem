@@ -6,13 +6,13 @@
   "loginUser": "admin@converge.com",
   "loginPassword": "Admin@123456",
   "executionArgs": {
-    "projectName": "v3",
-    "projectPath": "C:\\Users\\shrav\\OneDrive\\Desktop\\anokha\\v3",
+    "projectName": "Four-BodyProblem",
+    "projectPath": "D:\\temp\\Four-BodyProblem",
     "testIds": [],
     "additionalInstruction": "",
     "envs": {
-      "API_KEY": "sk-user-3MLfKTZzxlE-B4zt38FPSEnihwdkjlyQVA7ntYNlwiUCtHn_5ygLe2EhCEW9_nD7L49h39FqCTteY-w98L1lY3Hs5P5KwcyO01pf2zR0vRd_L99jSJ9OsLEqFwUB5NjENQo"
+      "API_KEY": "sk-user-daOQpXH-oKCsBg_PUJEp_LRxvVaE_pzKrRp3CHk9ONIXczOReGkZ0J2cEsfOp6By821OqJLrjIrw1dIGUGm_Sf8J4HYfdXu1e_bupal4qw0aaEyYXO_ZJAON1Y4ZFRczv0o"
     }
   },
-  "proxy": "http://47853c26-320a-42e2-bcc7-bc69c5e985bb:En3BpQj0vMyP2r7XU3khPxOD8m3fb7Y1@tun.testsprite.com:8080"
+  "proxy": "http://21038ccd-7786-463b-ba46-8a319c181606:Ux6VoLBXNhPplOkJBIu7DPnYO1mfEMhr@tun.testsprite.com:8080"
 }

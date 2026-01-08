@@ -46,21 +46,16 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
-        await asyncio.sleep(3)
-        
-
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        # -> Try to navigate to registration page by direct URL or alternative method.
+        await page.goto('http://localhost:5000/register', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(page.locator('text=Invalid email format detected')).to_be_visible(timeout=5000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError('Test case failed: Registration did not fail as expected when an invalid email format was input. The system did not display the appropriate error message for invalid email.')
         await asyncio.sleep(5)
     
     finally:

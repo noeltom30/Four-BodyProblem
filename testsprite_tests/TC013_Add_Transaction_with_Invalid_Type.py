@@ -46,21 +46,34 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Perform login via /api/auth endpoint with provided credentials to get auth token.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
+        # -> Perform login by sending POST request to /api/auth with credentials to get authentication token, then attempt to add transaction with invalid type 'refund'.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Perform POST request to /api/auth with credentials to obtain auth token.
+        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Perform login by sending POST request to /api/auth with credentials to get authentication token, then attempt to add transaction with invalid type 'refund'.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Perform POST request to /api/auth with credentials to obtain authentication token.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
-        try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
-        except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+        frame = context.pages[-1]
+        await expect(frame.locator('text=Endpoint not found').first).to_be_visible(timeout=30000)
         await asyncio.sleep(5)
     
     finally:

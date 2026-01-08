@@ -46,21 +46,46 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Authenticate as a User role and attempt to access an Admin-only endpoint.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
+        # -> Find the correct authentication endpoint or method to authenticate as User role.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Authenticate as User role and attempt to access Admin-only endpoint.
+        await page.goto('http://localhost:5000/api/auth/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try alternative common authentication endpoints such as /api/login, /auth/login, or /login to find the correct authentication endpoint.
+        await page.goto('http://localhost:5000/api/login', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Try alternative common authentication endpoints such as /auth or /login or check root endpoint for clues.
+        await page.goto('http://localhost:5000/auth', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Check the root endpoint response or other available endpoints for clues about the correct authentication endpoint or method.
+        await page.goto('http://localhost:5000', timeout=10000)
+        await asyncio.sleep(3)
+        
+
+        # -> Send POST request to /api/auth with User role credentials to authenticate and obtain token.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(page.locator('text=Access Granted for Admin').first).to_be_visible(timeout=1000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError("Test case failed: Users with different roles must only access permissible routes. Authorization errors were expected but not found, indicating a failure in role-based access control.")
         await asyncio.sleep(5)
     
     finally:

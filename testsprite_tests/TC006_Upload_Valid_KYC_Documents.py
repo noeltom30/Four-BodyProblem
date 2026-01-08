@@ -46,21 +46,22 @@ async def run_test():
                 pass
         
         # Interact with the page elements to simulate user flow
-        # -> Navigate to the login page or prepare to send login request to /api/auth endpoint.
+        # -> Try to navigate to /api/auth endpoint to check if it provides a login UI or further navigation.
         await page.goto('http://localhost:5000/api/auth', timeout=10000)
         await asyncio.sleep(3)
         
 
-        # -> Perform POST request to /api/auth with valid credentials to verify login and JWT token.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        # -> Since no UI is found, attempt to test document upload via API calls to /api/kyc endpoint as a fallback.
+        await page.goto('http://localhost:5000/api/kyc', timeout=10000)
         await asyncio.sleep(3)
         
 
         # --> Assertions to verify final state
+        frame = context.pages[-1]
         try:
-            await expect(page.locator('text=Login Successful - JWT Token Received').first).to_be_visible(timeout=1000)
+            await expect(frame.locator('text=Upload Successful! Your KYC documents have been accepted.').first).to_be_visible(timeout=30000)
         except AssertionError:
-            raise AssertionError('Test case failed: User login was not successful and a valid JWT token was not received as expected.')
+            raise AssertionError('Test case failed: The KYC documents upload did not succeed as expected. The files might not have been accepted or uploaded properly, violating the test plan requirements.')
         await asyncio.sleep(5)
     
     finally:
