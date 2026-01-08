@@ -11,6 +11,36 @@ const Navbar = () => {
     navigate('/login');
   };
 
+  const renderUserNavigation = () => {
+    if (!user) return null;
+
+    if (user.role === 'user') {
+      return (
+        <>
+          <Link to="/dashboard" className="btn btn-secondary" style={{ margin: 0 }}>
+            Dashboard
+          </Link>
+          <Link to="/documents" className="btn btn-secondary" style={{ margin: 0 }}>
+            Documents
+          </Link>
+          <Link to="/transactions" className="btn btn-secondary" style={{ margin: 0 }}>
+            Transactions
+          </Link>
+        </>
+      );
+    }
+
+    if (user.role === 'admin') {
+      return (
+        <Link to="/admin" className="btn btn-secondary" style={{ margin: 0 }}>
+          Admin Panel
+        </Link>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <nav style={{
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -40,25 +70,7 @@ const Navbar = () => {
                 {user.role === 'admin' && ' (Admin)'}
               </span>
               
-              {user.role === 'user' ? (
-                <>
-                  <Link to="/dashboard" className="btn btn-secondary" style={{ margin: 0 }}>
-                    Dashboard
-                  </Link>
-                  <Link to="/documents" className="btn btn-secondary" style={{ margin: 0 }}>
-                    Documents
-                  </Link>
-                  <Link to="/transactions" className="btn btn-secondary" style={{ margin: 0 }}>
-                    Transactions
-                  </Link>
-                </>
-              ) : user.role === 'admin' ? (
-                <>
-                  <Link to="/admin" className="btn btn-secondary" style={{ margin: 0 }}>
-                    Admin Panel
-                  </Link>
-                </>
-              ) : null}
+              {renderUserNavigation()}
               
               <button onClick={handleLogout} className="btn btn-danger" style={{ margin: 0 }}>
                 Logout

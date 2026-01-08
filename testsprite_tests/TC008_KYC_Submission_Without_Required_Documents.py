@@ -2,6 +2,9 @@ import asyncio
 from playwright import async_api
 from playwright.async_api import expect
 
+# Constants
+API_AUTH_URL = 'http://localhost:5000/api/auth'
+
 async def run_test():
     pw = None
     browser = None
@@ -47,7 +50,7 @@ async def run_test():
         
         # Interact with the page elements to simulate user flow
         # -> Use the /api/auth endpoint to authenticate user admin@converge.com and obtain token for further API calls.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await page.goto(API_AUTH_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
@@ -56,7 +59,7 @@ async def run_test():
         
 
         # -> Use API endpoints to simulate login and KYC submission steps programmatically.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await page.goto(API_AUTH_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
@@ -65,7 +68,7 @@ async def run_test():
         
 
         # -> Use API endpoints to simulate login and KYC submission steps programmatically.
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await page.goto(API_AUTH_URL, timeout=10000)
         await asyncio.sleep(3)
         
 

@@ -1,5 +1,4 @@
 const db = require('../config/database');
-const path = require('path');
 
 class KYCController {
   // Upload document
@@ -80,7 +79,7 @@ class KYCController {
         [req.user.id]
       );
 
-      if (parseInt(docResult.rows[0].doc_count) === 0) {
+      if (Number.parseInt(docResult.rows[0].doc_count) === 0) {
         return res.status(400).json({
           success: false,
           message: 'Please upload at least one document before submitting KYC'

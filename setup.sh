@@ -27,7 +27,7 @@ fi
 echo ""
 
 # Create .env file if it doesn't exist
-if [ ! -f ".env" ]; then
+if [[ ! -f ".env" ]]; then
     echo "Creating .env file from template..."
     cp .env.example .env
     echo "✓ .env file created"
@@ -42,11 +42,12 @@ echo ""
 echo "Checking if required ports are available..."
 
 check_port() {
-    if lsof -Pi :$1 -sTCP:LISTEN -t >/dev/null 2>&1; then
-        echo "✗ Port $1 is already in use"
+    local port="$1"
+    if lsof -Pi :$port -sTCP:LISTEN -t >/dev/null 2>&1; then
+        echo "✗ Port $port is already in use"
         return 1
     else
-        echo "✓ Port $1 is available"
+        echo "✓ Port $port is available"
         return 0
     fi
 }
@@ -56,7 +57,7 @@ check_port 3000 || PORTS_OK=false
 check_port 5000 || PORTS_OK=false
 check_port 5432 || PORTS_OK=false
 
-if [ "$PORTS_OK" = false ]; then
+if [[ "$PORTS_OK" = false ]]; then
     echo ""
     echo "⚠️  Some required ports are in use"
     echo "Please free these ports or update docker-compose.yml"

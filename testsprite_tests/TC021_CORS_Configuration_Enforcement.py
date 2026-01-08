@@ -2,6 +2,13 @@ import asyncio
 from playwright import async_api
 from playwright.async_api import expect
 
+# Constants
+BASE_URL = 'http://localhost:5000'
+API_AUTH_URL = f'{BASE_URL}/api/auth'
+API_KYC_URL = f'{BASE_URL}/api/kyc'
+API_TRANSACTIONS_URL = f'{BASE_URL}/api/transactions'
+API_PARTNER_URL = f'{BASE_URL}/api/partner'
+
 async def run_test():
     pw = None
     browser = None
@@ -30,7 +37,7 @@ async def run_test():
         page = await context.new_page()
         
         # Navigate to your target URL and wait until the network request is committed
-        await page.goto("http://localhost:5000", wait_until="commit", timeout=10000)
+        await page.goto(BASE_URL, wait_until="commit", timeout=10000)
         
         # Wait for the main page to reach DOMContentLoaded state (optional for stability)
         try:
@@ -47,37 +54,37 @@ async def run_test():
         
         # Interact with the page elements to simulate user flow
         # -> Send API request to /api/auth from an allowed origin with credentials to test CORS headers
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await page.goto(API_AUTH_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Check available API endpoints or documentation to find correct endpoint for authentication or other testable endpoints
-        await page.goto('http://localhost:5000', timeout=10000)
+        await page.goto(BASE_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Send API request to /api/auth from an allowed origin with credentials to test CORS headers
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await page.goto(API_AUTH_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Send API request to /api/kyc endpoint from an allowed origin to test CORS headers
-        await page.goto('http://localhost:5000/api/kyc', timeout=10000)
+        await page.goto(API_KYC_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Send API request to /api/transactions endpoint from an allowed origin to test CORS headers
-        await page.goto('http://localhost:5000/api/transactions', timeout=10000)
+        await page.goto(API_TRANSACTIONS_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Send authentication request to /api/auth with credentials to obtain token
-        await page.goto('http://localhost:5000/api/auth', timeout=10000)
+        await page.goto(API_AUTH_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Try to send a test request to /api/partner endpoint to check if it is accessible and can be used for CORS testing
-        await page.goto('http://localhost:5000/api/partner', timeout=10000)
+        await page.goto(API_PARTNER_URL, timeout=10000)
         await asyncio.sleep(3)
         
 

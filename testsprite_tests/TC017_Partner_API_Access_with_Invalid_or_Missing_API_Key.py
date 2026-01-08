@@ -2,6 +2,10 @@ import asyncio
 from playwright import async_api
 from playwright.async_api import expect
 
+# Constants
+BASE_URL = 'http://localhost:5000'
+API_PARTNER_URL = f'{BASE_URL}/api/partner'
+
 async def run_test():
     pw = None
     browser = None
@@ -30,7 +34,7 @@ async def run_test():
         page = await context.new_page()
         
         # Navigate to your target URL and wait until the network request is committed
-        await page.goto("http://localhost:5000", wait_until="commit", timeout=10000)
+        await page.goto(BASE_URL, wait_until="commit", timeout=10000)
         
         # Wait for the main page to reach DOMContentLoaded state (optional for stability)
         try:
@@ -47,47 +51,47 @@ async def run_test():
         
         # Interact with the page elements to simulate user flow
         # -> Send API request to /api/partner endpoint without API key to verify rejection with unauthorized error
-        await page.goto('http://localhost:5000/api/partner', timeout=10000)
+        await page.goto(API_PARTNER_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Check API documentation or root endpoint for correct partner API endpoint or method to test API key validation
-        await page.goto('http://localhost:5000', timeout=10000)
+        await page.goto(BASE_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Send API request to /api/partner endpoint without API key to verify rejection with unauthorized error
-        await page.goto('http://localhost:5000/api/partner', timeout=10000)
+        await page.goto(API_PARTNER_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Extract content from root endpoint to find correct partner API endpoint or documentation
-        await page.goto('http://localhost:5000', timeout=10000)
+        await page.goto(BASE_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Send API request to /api/partner endpoint without API key to verify rejection with unauthorized error
-        await page.goto('http://localhost:5000/api/partner', timeout=10000)
+        await page.goto(API_PARTNER_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Extract content from root endpoint to find correct partner API endpoint or documentation
-        await page.goto('http://localhost:5000', timeout=10000)
+        await page.goto(BASE_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Send a POST request to /api/partner endpoint without API key to verify rejection with unauthorized error
-        await page.goto('http://localhost:5000/api/partner', timeout=10000)
+        await page.goto(API_PARTNER_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Check if there are other endpoints or documentation available on the root or other pages to find the correct partner API endpoint or authentication method
-        await page.goto('http://localhost:5000', timeout=10000)
+        await page.goto(BASE_URL, timeout=10000)
         await asyncio.sleep(3)
         
 
         # -> Send a POST request to /api/partner endpoint without API key to verify rejection with unauthorized error
-        await page.goto('http://localhost:5000/api/partner', timeout=10000)
+        await page.goto(API_PARTNER_URL, timeout=10000)
         await asyncio.sleep(3)
         
 

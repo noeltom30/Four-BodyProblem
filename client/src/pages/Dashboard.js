@@ -22,6 +22,7 @@ const Dashboard = () => {
       setProfile(profileRes.data.data);
       setCreditScore(scoreRes.data.data);
     } catch (error) {
+      console.error('Failed to load dashboard data:', error);
       toast.error('Failed to load dashboard data');
     } finally {
       setLoading(false);

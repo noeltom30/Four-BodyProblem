@@ -18,6 +18,7 @@ const AdminPanel = () => {
       const res = await api.get('/kyc/admin/pending');
       setPendingKYC(res.data.data);
     } catch (error) {
+      console.error('Failed to fetch pending KYC:', error);
       toast.error('Failed to load pending KYC requests');
     } finally {
       setLoading(false);
@@ -30,6 +31,7 @@ const AdminPanel = () => {
       setDocuments(res.data.data);
       setSelectedUser(userId);
     } catch (error) {
+      console.error('Failed to load documents:', error);
       toast.error('Failed to load documents');
     }
   };
@@ -50,6 +52,7 @@ const AdminPanel = () => {
       setRejectionReason('');
       fetchPendingKYC();
     } catch (error) {
+      console.error(`Failed to ${action} KYC:`, error);
       toast.error(error.response?.data?.message || `Failed to ${action} KYC`);
     }
   };
@@ -138,8 +141,9 @@ const AdminPanel = () => {
 
                     <div style={{ marginTop: '1rem' }}>
                       <div className="form-group">
-                        <label className="form-label">Rejection Reason (if rejecting)</label>
+                        <label htmlFor="rejectionReason" className="form-label">Rejection Reason (if rejecting)</label>
                         <textarea
+                          id="rejectionReason"
                           className="form-input"
                           rows="3"
                           value={rejectionReason}

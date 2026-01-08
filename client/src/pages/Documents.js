@@ -20,6 +20,7 @@ const Documents = () => {
       const res = await api.get('/kyc/documents');
       setDocuments(res.data.data);
     } catch (error) {
+      console.error('Failed to load documents:', error);
       toast.error('Failed to load documents');
     }
   };
@@ -59,6 +60,7 @@ const Documents = () => {
       setDocumentNumber('');
       fetchDocuments();
     } catch (error) {
+      console.error('Document upload failed:', error);
       toast.error(error.response?.data?.message || 'Upload failed');
     } finally {
       setUploading(false);
@@ -76,6 +78,7 @@ const Documents = () => {
       toast.success('KYC submitted for review');
       fetchKYCStatus();
     } catch (error) {
+      console.error('KYC submission failed:', error);
       toast.error(error.response?.data?.message || 'Submission failed');
     }
   };
@@ -105,8 +108,9 @@ const Documents = () => {
           <h2 style={{ marginBottom: '1rem' }}>Upload Document</h2>
           <form onSubmit={handleUpload}>
             <div className="form-group">
-              <label className="form-label">Document Type</label>
+              <label htmlFor="documentType" className="form-label">Document Type</label>
               <select 
+                id="documentType"
                 className="form-input" 
                 value={documentType} 
                 onChange={(e) => setDocumentType(e.target.value)}
@@ -122,8 +126,9 @@ const Documents = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Document Number (Optional)</label>
+              <label htmlFor="documentNumber" className="form-label">Document Number (Optional)</label>
               <input
+                id="documentNumber"
                 type="text"
                 className="form-input"
                 value={documentNumber}
@@ -133,8 +138,9 @@ const Documents = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Select File (Max 5MB)</label>
+              <label htmlFor="documentFile" className="form-label">Select File (Max 5MB)</label>
               <input
+                id="documentFile"
                 type="file"
                 className="form-input"
                 onChange={handleFileChange}

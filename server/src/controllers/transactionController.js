@@ -63,7 +63,7 @@ class TransactionController {
       }
 
       query += ' ORDER BY transaction_date DESC LIMIT $' + (params.length + 1) + ' OFFSET $' + (params.length + 2);
-      params.push(parseInt(limit), parseInt(offset));
+      params.push(Number.parseInt(limit), Number.parseInt(offset));
 
       const result = await db.query(query, params);
 
@@ -78,9 +78,9 @@ class TransactionController {
         data: {
           transactions: result.rows,
           pagination: {
-            total: parseInt(countResult.rows[0].total),
-            limit: parseInt(limit),
-            offset: parseInt(offset)
+            total: Number.parseInt(countResult.rows[0].total),
+            limit: Number.parseInt(limit),
+            offset: Number.parseInt(offset)
           }
         }
       });

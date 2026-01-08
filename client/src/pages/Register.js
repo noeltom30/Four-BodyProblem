@@ -99,8 +99,9 @@ const Register = () => {
               gap: '1rem'
             }}>
               <div className="form-group">
-                <label className="form-label">Full Name *</label>
+                <label htmlFor="fullName" className="form-label">Full Name *</label>
                 <input
+                  id="fullName"
                   type="text"
                   name="fullName"
                   className="form-input"
@@ -112,8 +113,9 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Email *</label>
+                <label htmlFor="registerEmail" className="form-label">Email *</label>
                 <input
+                  id="registerEmail"
                   type="email"
                   name="email"
                   className="form-input"
@@ -125,8 +127,9 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Phone</label>
+                <label htmlFor="phone" className="form-label">Phone</label>
                 <input
+                  id="phone"
                   type="tel"
                   name="phone"
                   className="form-input"
@@ -137,8 +140,9 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Date of Birth</label>
+                <label htmlFor="dateOfBirth" className="form-label">Date of Birth</label>
                 <input
+                  id="dateOfBirth"
                   type="date"
                   name="dateOfBirth"
                   className="form-input"
@@ -149,8 +153,9 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Address</label>
+              <label htmlFor="address" className="form-label">Address</label>
               <input
+                id="address"
                 type="text"
                 name="address"
                 className="form-input"
@@ -166,8 +171,9 @@ const Register = () => {
               gap: '1rem'
             }}>
               <div className="form-group">
-                <label className="form-label">City</label>
+                <label htmlFor="city" className="form-label">City</label>
                 <input
+                  id="city"
                   type="text"
                   name="city"
                   className="form-input"
@@ -178,8 +184,9 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">State</label>
+                <label htmlFor="state" className="form-label">State</label>
                 <input
+                  id="state"
                   type="text"
                   name="state"
                   className="form-input"
@@ -190,8 +197,9 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Postal Code</label>
+                <label htmlFor="postalCode" className="form-label">Postal Code</label>
                 <input
+                  id="postalCode"
                   type="text"
                   name="postalCode"
                   className="form-input"
@@ -208,8 +216,9 @@ const Register = () => {
               gap: '1rem'
             }}>
               <div className="form-group">
-                <label className="form-label">Password *</label>
+                <label htmlFor="registerPassword" className="form-label">Password *</label>
                 <input
+                  id="registerPassword"
                   type="password"
                   name="password"
                   className="form-input"
@@ -221,8 +230,9 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Confirm Password *</label>
+                <label htmlFor="confirmPassword" className="form-label">Confirm Password *</label>
                 <input
+                  id="confirmPassword"
                   type="password"
                   name="confirmPassword"
                   className="form-input"

@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require('node:crypto');
 const db = require('../config/database');
 
 class PartnerController {
@@ -275,11 +275,11 @@ class PartnerController {
       const transactions = transactionsResult.rows;
       const totalCredit = transactions
         .filter(t => t.transaction_type === 'credit')
-        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+        .reduce((sum, t) => sum + Number.parseFloat(t.amount), 0);
       
       const totalDebit = transactions
         .filter(t => t.transaction_type === 'debit')
-        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+        .reduce((sum, t) => sum + Number.parseFloat(t.amount), 0);
 
       res.json({
         success: true,

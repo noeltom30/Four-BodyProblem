@@ -21,4 +21,11 @@ async function generateHashes() {
   console.log('Copy these hashes to db/init.sql');
 }
 
-generateHashes().catch(console.error);
+(async () => {
+  try {
+    await generateHashes();
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+})();

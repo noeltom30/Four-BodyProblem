@@ -64,7 +64,7 @@ class CibilService {
   }
 
   calculateAvgAmountScore(transactions) {
-    const totalAmount = transactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    const totalAmount = transactions.reduce((sum, t) => sum + Number.parseFloat(t.amount), 0);
     const avgAmount = totalAmount / transactions.length;
     
     // Average transaction amount scoring
@@ -77,8 +77,8 @@ class CibilService {
     const credits = transactions.filter(t => t.transaction_type === 'credit');
     const debits = transactions.filter(t => t.transaction_type === 'debit');
     
-    const totalCredit = credits.reduce((sum, t) => sum + parseFloat(t.amount), 0);
-    const totalDebit = debits.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    const totalCredit = credits.reduce((sum, t) => sum + Number.parseFloat(t.amount), 0);
+    const totalDebit = debits.reduce((sum, t) => sum + Number.parseFloat(t.amount), 0);
 
     if (totalDebit === 0) {
       return 1; // Only credits, excellent
@@ -135,11 +135,11 @@ class CibilService {
 
       const totalCredits = transactions
         .filter(t => t.transaction_type === 'credit')
-        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+        .reduce((sum, t) => sum + Number.parseFloat(t.amount), 0);
 
       const totalDebits = transactions
         .filter(t => t.transaction_type === 'debit')
-        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+        .reduce((sum, t) => sum + Number.parseFloat(t.amount), 0);
 
       const scoreResult = await db.query(
         'SELECT credit_score FROM kyc_profiles WHERE user_id = $1',

@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import api from './api';
 
 const AuthContext = createContext(null);
@@ -19,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = async (email, password) => {
+  const login = useCallback(async (email, password) => {
     const response = await api.post('/auth/login', { email, password });
     const { user, token } = response.data.data;
     
@@ -28,9 +29,9 @@ export const AuthProvider = ({ children }) => {
     setUser(user);
     
     return user;
-  };
+  }, []);
 
-  const register = async (userData) => {
+  const register = useCallback(async (userData) => {
     const response = await api.post('/auth/register', userData);
     const { user, token } = response.data.data;
     
@@ -39,24 +40,33 @@ export const AuthProvider = ({ children }) => {
     setUser(user);
     
     return user;
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
-  };
+  }, []);
 
-  const updateUser = (updatedUser) => {
+  const updateUser = useCallback((updatedUser) => {
     setUser(updatedUser);
     localStorage.setItem('user', JSON.stringify(updatedUser));
-  };
+  }, []);
+
+  const value = useMemo(
+    () => ({ user, login, register, logout, updateUser, loading }),
+    [user, login, register, logout, updateUser, loading]
+  );
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, updateUser, loading }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired
 };
 
 export const useAuth = () => {

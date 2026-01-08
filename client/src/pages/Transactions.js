@@ -23,6 +23,7 @@ const Transactions = () => {
       const res = await api.get('/transactions');
       setTransactions(res.data.data.transactions);
     } catch (error) {
+      console.error('Failed to load transactions:', error);
       toast.error('Failed to load transactions');
     }
   };
@@ -43,6 +44,7 @@ const Transactions = () => {
       });
       fetchTransactions();
     } catch (error) {
+      console.error('Failed to add transaction:', error);
       toast.error('Failed to add transaction');
     }
   };
@@ -62,8 +64,9 @@ const Transactions = () => {
           <form onSubmit={handleSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
               <div className="form-group">
-                <label className="form-label">Type</label>
+                <label htmlFor="transactionType" className="form-label">Type</label>
                 <select 
+                  id="transactionType"
                   className="form-input"
                   value={formData.transactionType}
                   onChange={(e) => setFormData({...formData, transactionType: e.target.value})}
@@ -73,8 +76,9 @@ const Transactions = () => {
                 </select>
               </div>
               <div className="form-group">
-                <label className="form-label">Amount</label>
+                <label htmlFor="amount" className="form-label">Amount</label>
                 <input
+                  id="amount"
                   type="number"
                   step="0.01"
                   className="form-input"
@@ -84,8 +88,9 @@ const Transactions = () => {
                 />
               </div>
               <div className="form-group">
-                <label className="form-label">Date</label>
+                <label htmlFor="transactionDate" className="form-label">Date</label>
                 <input
+                  id="transactionDate"
                   type="date"
                   className="form-input"
                   value={formData.transactionDate}
@@ -95,8 +100,9 @@ const Transactions = () => {
               </div>
             </div>
             <div className="form-group">
-              <label className="form-label">Description</label>
+              <label htmlFor="description" className="form-label">Description</label>
               <input
+                id="description"
                 type="text"
                 className="form-input"
                 value={formData.description}
@@ -139,7 +145,7 @@ const Transactions = () => {
                       color: txn.transaction_type === 'credit' ? '#27ae60' : '#e74c3c',
                       fontWeight: 600
                     }}>
-                      {txn.transaction_type === 'credit' ? '+' : '-'}₹{parseFloat(txn.amount).toFixed(2)}
+                      {txn.transaction_type === 'credit' ? '+' : '-'}₹{Number.parseFloat(txn.amount).toFixed(2)}
                     </td>
                     <td style={{ padding: '0.75rem' }}>{txn.description || '-'}</td>
                   </tr>
