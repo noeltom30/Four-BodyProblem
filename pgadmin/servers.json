@@ -1,0 +1,16 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Converge Database",
+      "Group": "Servers",
+      "Host": "db",
+      "Port": 5432,
+      "MaintenanceDB": "converge_db",
+      "Username": "converge_user",
+      "Password": "converge_secure_pass_2026",
+      "SSLMode": "prefer",
+      "Comment": "Converge KYC System PostgreSQL Database"
+    }
+  }
+}
+

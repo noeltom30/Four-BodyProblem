@@ -1,0 +1,18 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5000",
+  "loginUser": "admin@converge.com",
+  "loginPassword": "Admin@123456",
+  "executionArgs": {
+    "projectName": "v3",
+    "projectPath": "C:\\Users\\shrav\\OneDrive\\Desktop\\anokha\\v3",
+    "testIds": [],
+    "additionalInstruction": "",
+    "envs": {
+      "API_KEY": "sk-user-3MLfKTZzxlE-B4zt38FPSEnihwdkjlyQVA7ntYNlwiUCtHn_5ygLe2EhCEW9_nD7L49h39FqCTteY-w98L1lY3Hs5P5KwcyO01pf2zR0vRd_L99jSJ9OsLEqFwUB5NjENQo"
+    }
+  },
+  "proxy": "http://47853c26-320a-42e2-bcc7-bc69c5e985bb:En3BpQj0vMyP2r7XU3khPxOD8m3fb7Y1@tun.testsprite.com:8080"
+}

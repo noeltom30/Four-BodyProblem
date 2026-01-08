@@ -1,0 +1,149 @@
+{
+  "tech_stack": [
+    "JavaScript",
+    "Node.js",
+    "Express",
+    "React",
+    "PostgreSQL",
+    "Docker",
+    "JWT",
+    "bcrypt",
+    "Multer",
+    "React Router",
+    "Axios"
+  ],
+  "features": [
+    {
+      "name": "User Authentication",
+      "description": "JWT-based authentication system with registration, login, and profile management. Includes password hashing with bcrypt and role-based access control.",
+      "files": [
+        "server/src/controllers/authController.js",
+        "server/src/routes/authRoutes.js",
+        "server/src/middleware/auth.js",
+        "client/src/pages/Login.js",
+        "client/src/pages/Register.js",
+        "client/src/AuthContext.js"
+      ]
+    },
+    {
+      "name": "KYC Document Management",
+      "description": "Upload, manage, and review identity documents (Aadhaar, PAN, Passport, etc.) for KYC verification. Supports file uploads with validation and admin review workflow.",
+      "files": [
+        "server/src/controllers/kycController.js",
+        "server/src/routes/kycRoutes.js",
+        "server/src/middleware/upload.js",
+        "client/src/pages/Documents.js"
+      ]
+    },
+    {
+      "name": "KYC Verification Workflow",
+      "description": "Complete KYC submission and review process. Users can submit documents for review, and admins can approve or reject with mandatory reasons. Includes audit trail.",
+      "files": [
+        "server/src/controllers/kycController.js",
+        "server/src/routes/kycRoutes.js",
+        "client/src/pages/Documents.js",
+        "client/src/pages/AdminPanel.js"
+      ]
+    },
+    {
+      "name": "Transaction Management",
+      "description": "Create, view, and manage financial transactions (credit/debit). Supports pagination, filtering, and automatic credit score recalculation on transaction addition.",
+      "files": [
+        "server/src/controllers/transactionController.js",
+        "server/src/routes/transactionRoutes.js",
+        "client/src/pages/Transactions.js"
+      ]
+    },
+    {
+      "name": "Credit Score Calculation",
+      "description": "CIBIL-style credit score engine (300-900 range) that calculates scores based on transaction history. Uses weighted algorithm considering total transactions, average amount, credit/debit ratio, frequency, and recent activity.",
+      "files": [
+        "server/src/services/cibilService.js",
+        "server/src/controllers/transactionController.js"
+      ]
+    },
+    {
+      "name": "User Dashboard",
+      "description": "Dashboard displaying KYC status, credit score, financial summary, and quick access to key features.",
+      "files": [
+        "client/src/pages/Dashboard.js"
+      ]
+    },
+    {
+      "name": "Admin Panel",
+      "description": "Admin interface for reviewing pending KYC requests, viewing documents, and approving/rejecting applications with reasons.",
+      "files": [
+        "client/src/pages/AdminPanel.js"
+      ]
+    },
+    {
+      "name": "Partner Integration",
+      "description": "OAuth-like account linking system for third-party partners (e.g., Slice). Partners can verify KYC status and retrieve user credit scores and transaction history with user consent.",
+      "files": [
+        "server/src/controllers/partnerController.js",
+        "server/src/routes/partnerRoutes.js"
+      ]
+    },
+    {
+      "name": "Role-Based Access Control",
+      "description": "Middleware and components for enforcing role-based access (User, Admin, Partner). Protected routes and API endpoints based on user roles.",
+      "files": [
+        "server/src/middleware/auth.js",
+        "client/src/components/ProtectedRoute.js"
+      ]
+    },
+    {
+      "name": "Request Validation",
+      "description": "Middleware for validating request data using express-validator. Ensures data integrity and prevents invalid requests.",
+      "files": [
+        "server/src/middleware/validator.js"
+      ]
+    },
+    {
+      "name": "Error Handling",
+      "description": "Global error handler middleware for consistent error responses across the API.",
+      "files": [
+        "server/src/middleware/errorHandler.js"
+      ]
+    },
+    {
+      "name": "Database Configuration",
+      "description": "PostgreSQL database connection and configuration management.",
+      "files": [
+        "server/src/config/database.js",
+        "server/src/config/index.js",
+        "db/init.sql"
+      ]
+    },
+    {
+      "name": "API Client",
+      "description": "Frontend API client with axios for making HTTP requests to the backend. Includes token management and error handling.",
+      "files": [
+        "client/src/api.js"
+      ]
+    },
+    {
+      "name": "Navigation Components",
+      "description": "Navigation bar and routing components for the React application.",
+      "files": [
+        "client/src/components/Navbar.js",
+        "client/src/App.js"
+      ]
+    },
+    {
+      "name": "Home Page",
+      "description": "Landing page for the application.",
+      "files": [
+        "client/src/pages/Home.js"
+      ]
+    },
+    {
+      "name": "Server Entry Point",
+      "description": "Express server initialization with middleware setup, route registration, and health check endpoint.",
+      "files": [
+        "server/src/index.js"
+      ]
+    }
+  ]
+}
+
